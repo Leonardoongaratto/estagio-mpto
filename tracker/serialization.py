@@ -1,3 +1,5 @@
+from .models import State
+
 
 class BaseSerialization:
 
@@ -5,9 +7,33 @@ class BaseSerialization:
     _model = None
 
 
-    def serialize(self, instance):
-        raise NotImplemented('Abstrat class serialize not implemented')
+    @classmethod
+    def serialize(cls, instance):
+        return {
+            'pk':instance.pk,
+            'description': str(instance)
+        }
 
 
-    def deserialize(self, data):
-        raise NotImplemented('Abstrat class serialize not implemented')
+    @classmethod
+    def deserialize(cls, data):
+        return cls._model(**data)
+    
+
+class StateSerializer(BaseSerialization):
+    
+    _model = State
+
+    @classmethod
+    def serialize(cls, instance):
+        result = super().serialize(instance)
+
+
+        result.update(
+            name=instance.name,
+            abbreviation=instance.abbreviation
+        )
+
+        return result
+
+        
