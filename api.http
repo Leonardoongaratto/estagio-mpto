@@ -4,3 +4,15 @@
 # @name allStates
 
 GET {{baseURL}}/api/states
+
+###
+
+# @name createState
+
+POST {{baseURL}}/api/states
+Content-Type: application/json
+
+{
+    "name": "Ceará",
+    "abbreviation": "CE"
+}
