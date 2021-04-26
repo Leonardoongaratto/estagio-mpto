@@ -16,3 +16,9 @@ Content-Type: application/json
     "name": "Ceará",
     "abbreviation": "CE"
 }
+
+
+###
+# @name getOne
+
+GET {{baseURL}}/api/states/2
