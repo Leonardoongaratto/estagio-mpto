@@ -25,6 +25,7 @@ def state_list(request):
     
     return response
 
+
 def state_creat(request):
     response = None
 
@@ -52,6 +53,29 @@ def state_creat(request):
     return response
 
 
+def state_get_by_pk(request, pk):
+    status = 200
+    result = {}
+
+    try:
+        result = StateSerializer.serialize(
+            State.objects.get(pk=pk)
+        )
+        
+    except State.DoesNotExist:
+        status = 404
+        result = {
+            'message': f'Estado com ID igual a {pk} não existe.'
+        }
+
+    return HttpResponse(
+        status=status,
+        content_type='application/json',
+        content=json.dumps(result)
+            
+    )
+
+
 def state_index(request):
     response = None
 
@@ -62,3 +86,10 @@ def state_index(request):
         response = state_creat(request)
 
     return response
+
+
+def state_by_pk(request, pk):
+    if request.method == 'GET':
+        return state_get_by_pk(request, pk)
+    else:
+        return HttpResponse(status=501)
