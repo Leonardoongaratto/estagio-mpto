@@ -99,7 +99,40 @@ def state_delete_by_pk(request, pk):
     return HttpResponse(
         status=status,
         content_type='application/json',
-        content=json.dumps(result) if not result else ''
+        content=json.dumps(result) if result else ''
+
+    )
+
+
+def state_update_by_pk(request, pk):
+    status = 200
+    result = {}
+
+    try:
+        with transaction.atomic():
+            state = State.objects.get(pk=pk)
+            data = json.loads(request.body)
+
+            for key, value in data.items():
+                setattr(state, key, value)
+
+            state.save()
+            result = StateSerializer.serialize(state)
+    except State.DoesNotExist:
+        status = 404
+        result = {
+            'message': f'Estado com ID igual a {pk} não existe.'
+        }
+    except Exception as e:
+        status = 400
+        result = {
+            'message': str(e)
+        }
+
+    return HttpResponse(
+        status=status,
+        content_type='application/json',
+        content=json.dumps(result) if result else ''
 
     )
 
@@ -120,5 +153,7 @@ def state_by_pk(request, pk):
         return state_get_by_pk(request, pk)
     elif request.method == 'DELETE':
         return state_delete_by_pk(request, pk)
+    elif request.method == 'PUT':
+        return state_update_by_pk(request, pk)
     else:
         return HttpResponse(status=501)
