@@ -46,7 +46,7 @@ Content-Type: application/json
 ###
 # @name allCities
 
-GET {{baseURL}}/api/cities
+GET {{baseURL}}/api/cities?filters=[{"property": "name__icontains", "value": "flor", "stage": 1}]
 
 
 ###
@@ -57,8 +57,8 @@ POST {{baseURL}}/api/cities
 Content-Type: application/json
 
 {
-    "name": "Aparecida",
-    "state_id": 6
+    "name": "Floriano",
+    "state_id": 5
 }
 
 
