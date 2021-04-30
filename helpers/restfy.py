@@ -50,7 +50,7 @@ def make_rest(Serializer):
                     setattr(instance, key, value)
 
                 instance.save()
-                result = Serializer.serialize(instance)
+                result = Serializer.encode(instance)
         except Model.DoesNotExist:
             status = 404
             result = {
@@ -76,7 +76,7 @@ def make_rest(Serializer):
         result = {}
 
         try:
-            result = Serializer.serialize(
+            result = Serializer.encode(
                 Model.objects.get(id=id)
             )
 
@@ -154,7 +154,7 @@ def make_rest(Serializer):
                 response = HttpResponse(
                     content_type='application/json',
                     content=json.dumps([
-                        Serializer.serialize(state) for state in query
+                        Serializer.encode(state) for state in query
                     ])
                 )
             else:
@@ -177,12 +177,12 @@ def make_rest(Serializer):
         try:
             with transaction.atomic():
                 data = json.loads(request.body)
-                instance = Serializer.deserialize(data)
+                instance = Serializer.decode(data)
                 instance.save()
 
                 response = HttpResponse(
                     content=json.dumps(
-                        Serializer.serialize(instance)
+                        Serializer.encode(instance)
                     ),
                     status=201
                 )
