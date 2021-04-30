@@ -2,6 +2,7 @@ import json
 
 from django.http.response import HttpResponse
 from django.db import transaction
+from django.db.models import Q
 
 
 def make_rest(Serializer):
@@ -93,20 +94,79 @@ def make_rest(Serializer):
         )
 
 
+    def _do_filter(base_query, filters):
+        data = json.loads(filters) if filters else []
+        stages = {}
+        
+        for expression in data:
+            stage_number = expression.get('stage', 1)
+            stage = stages.get(stage_number, [])
+            if stage_number >= 0:
+                stage.append(
+                    Q(**{
+                        expression.get('property'): expression.get('value')
+                    })
+                )
+            else:
+                stage.append(
+                    ~Q(**{
+                        expression.get('property'): expression.get('value')
+                    })
+                )
+
+            stages.update({
+                stage_number: stage
+            })
+
+        
+        
+        query = None
+        for stage_number in stages.keys():
+            expressions = stages.get(stage_number)
+            sub_query = None
+
+            for expression in expressions:
+                if not sub_query:
+                    sub_query = expression
+                else:
+                    sub_query |= expression
+
+            if not query:
+                query = sub_query
+            else:
+                query &= sub_query
+        
+        return base_query.filter(query) if query else base_query
+
+
     def _list(request):
         query = Model.objects.all()
         response = HttpResponse()
         response.status_code = 501
 
-        if query.exists():
+        try:
+            query = _do_filter(
+                query,
+                request.GET.get('filters'
+            ))
+
+            if query.exists():
+                response = HttpResponse(
+                    content_type='application/json',
+                    content=json.dumps([
+                        Serializer.serialize(state) for state in query
+                    ])
+                )
+            else:
+                response.status_code = 404
+        except Exception as e:
             response = HttpResponse(
+                status=400,
                 content_type='application/json',
-                content=json.dumps([
-                    Serializer.serialize(state) for state in query
-                ])
+                content=json.dumps({
+                    'message': str(e)
+                })
             )
-        else:
-            response.status_code = 404
 
         return response
 
