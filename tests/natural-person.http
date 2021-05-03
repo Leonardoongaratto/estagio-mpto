@@ -1,0 +1,47 @@
+@baseURL = http://127.0.0.1:8000
+
+
+@resourse = natural-person
+
+
+###
+# @name all
+
+GET {{baseURL}}/api/{{resourse}}?filters=[{"property": "name__icontains", "value": "flor", "stage": 1}]
+
+
+###
+
+# @name create
+
+POST {{baseURL}}/api/{{resourse}}
+Content-Type: application/json
+
+{
+    "name": "Leonardo",
+    "city_id":3
+}
+
+
+###
+# @name getOneCity
+
+GET {{baseURL}}/api/{{resourse}}/1
+
+
+###
+
+# @name updateCity
+
+PUT  {{baseURL}}/api/{{resourse}}/2
+Content-Type: application/json
+
+{
+    "name": "Aparecida do Goias"
+}
+
+
+###
+# @name deleteOneCity
+
+DELETE  {{baseURL}}/api/{{resourse}}/2
