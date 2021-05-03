@@ -17,14 +17,30 @@ class City(models.Model):
 
 
 class Person(models.Model):
+    name = models.CharField('Nome', max_length=200)
+    city = models.ForeignKey(City, related_name='+', on_delete=models.PROTECT)
 
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.name
+
     
 class NaturalPerson(Person):
-    pass
+    cpf = models.CharField('Cadastro de pessoa Fisica', max_length=11, unique=True)
+
+    def __str__(self):
+        return f'{self.name} ({self.cpf})'
 
 
 class LegalPerson(Person):
-    pass
+    fantasy_name = models.CharField('Nome fantasia',max_length=200)
+    cnpj = models.CharField(
+        'Cadastro Nacional de pessoa Juridica',
+        max_length=11,
+        unique=True
+    )
+
+    def __str__(self):
+        return f'{self.fantasy_name} ({self.cnpj})'

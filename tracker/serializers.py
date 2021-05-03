@@ -1,5 +1,15 @@
 from helpers.serializer import BaseSerializer
-from .models import City, State
+from .models import City, State, Person, NaturalPerson
+
+
+class PersonSerializer(BaseSerializer):
+    
+    _model = Person
+
+
+class NaturalPersonSerializer(PersonSerializer):
+    
+    _model = NaturalPerson
 
 
 class StateSerializer(BaseSerializer):
