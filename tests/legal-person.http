@@ -1,7 +1,7 @@
 @baseURL = http://127.0.0.1:8000
 
 
-@resourse = natural-person
+@resourse = legal-person
 
 
 ###
@@ -12,33 +12,34 @@ GET {{baseURL}}/api/{{resourse}}
 
 ###
 
-# @name createPerson
+# @name create
 
 POST {{baseURL}}/api/{{resourse}}
 Content-Type: application/json
 
 {
-    "name": "Leonardo",
-    "cpf": "123456789",
-    "city_id":3
+    "name": "Empresa 4",
+    "city_id": 3,
+    "cnpj": "1237",
+    "fantasy_name": "Empresa de teste 4"
 }
 
 
 ###
-# @name getOnePerson
+# @name getOne
 
 GET {{baseURL}}/api/{{resourse}}/1
 
 
 ###
 
-# @name updatePerson
+# @name update
 
 PUT  {{baseURL}}/api/{{resourse}}/2
 Content-Type: application/json
 
 {
-    "cpf": "123456789"
+    "name": "Aparecida do Goias"
 }
 
 
