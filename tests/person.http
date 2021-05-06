@@ -1,7 +1,7 @@
 @baseURL = http://127.0.0.1:8000
 
 
-@resourse = natural-person
+@resourse = person
 
 
 ###
@@ -18,27 +18,26 @@ POST {{baseURL}}/api/{{resourse}}
 Content-Type: application/json
 
 {
-    "name": "Leonardo",
-    "cpf": "1234567810",
-    "city_id":1
+    "name": "Empresa 5",
+    "city_id": 2
 }
 
 
 ###
-# @name getOnePerson
+# @name getOne
 
-GET {{baseURL}}/api/{{resourse}}/1
+GET {{baseURL}}/api/{{resourse}}/3
 
 
 ###
 
-# @name updatePerson
+# @name update
 
-PUT  {{baseURL}}/api/{{resourse}}/2
+PUT  {{baseURL}}/api/{{resourse}}/1
 Content-Type: application/json
 
 {
-    "cpf": "123456789"
+    "cnpj": "1237"
 }
 
 

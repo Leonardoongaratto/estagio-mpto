@@ -7,6 +7,18 @@ class PersonSerializer(BaseSerializer):
     _model = Person
 
 
+    @classmethod 
+    def encode(cls, instance): 
+        result = super().encode(instance)
+
+        result.update(
+            name=instance.name,
+            city=CitySerializer.encode(instance.city)
+        )
+
+        return result
+
+
 class NaturalPersonSerializer(PersonSerializer):
     
     _model = NaturalPerson

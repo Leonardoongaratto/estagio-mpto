@@ -1,7 +1,13 @@
 from helpers import restfy
-from .serializers import StateSerializer, CitySerializer, NaturalPersonSerializer, LegalPersonSerializer
+from .serializers import StateSerializer, CitySerializer, NaturalPersonSerializer, LegalPersonSerializer, PersonSerializer
 
 
+person_index, person_by_id = restfy.make_rest(
+    PersonSerializer,
+    allow_create=False,
+    allow_update=False,
+    allow_delete=False
+)
 legal_person_index, legal_person_by_id = restfy.make_rest(LegalPersonSerializer)
 natural_person_index, natural_person_by_id = restfy.make_rest(NaturalPersonSerializer)
 state_index, state_by_id = restfy.make_rest(StateSerializer)

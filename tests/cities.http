@@ -4,7 +4,7 @@
 ###
 # @name allCities
 
-GET {{baseURL}}/api/cities?filters=[{"property": "name__icontains", "value": "flor", "stage": 1}]
+GET {{baseURL}}/api/cities
 
 
 ###
