@@ -1,11 +1,12 @@
 import json
 
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseNotAllowed
 from django.db import transaction
 from django.db.models import Q
 
 
-def make_rest(Serializer):
+def make_rest(Serializer, allow_list=True,allow_get=True,
+        allow_create=True, allow_update=True, allow_delete=True):
 
     Model = Serializer.Model()
 
@@ -17,7 +18,7 @@ def make_rest(Serializer):
             instance = Model.objects.get(id=id)
             instance .delete()
             status = 204
-            result = None
+            result 
         except Model.DoesNotExist:
             status = 404
             result = {
@@ -120,7 +121,7 @@ def make_rest(Serializer):
 
         
         
-        query = None
+        query = None 
         for stage_number in stages.keys():
             expressions = stages.get(stage_number)
             sub_query = None
@@ -198,25 +199,43 @@ def make_rest(Serializer):
 
         return response
 
+
     def _index(request):
         response = None
 
-        if request.method == 'GET':
+        if allow_list and request.method == 'GET':
             response = _list(request)
-        elif request.method == 'POST':
+        elif allow_create and request.method == 'POST':
             response = _creat(request)
+        else:
+            permitted_methods = []
 
-        return response
+            allow_list and permitted_methods.append('GET')
+            allow_create and permitted_methods.append('POST')
+            
+            response = HttpResponseNotAllowed(
+                permitted_methods = permitted_methods
+            )
+
+        return response 
 
 
     def _by_id(request, id):
-        if request.method == 'GET':
+        if allow_get and request.method == 'GET':
             return _get_by_id(request, id)
-        elif request.method == 'DELETE':
+        elif allow_delete and request.method == 'DELETE':
             return _delete_by_id(request, id)
-        elif request.method == 'PUT':
+        elif allow_update and request.method == 'PUT':
             return _update_by_id(request, id)
         else:
-            return HttpResponse(status=501)
+            permitted_methods = []
+
+            allow_get and permitted_methods.append('GET')
+            allow_delete and permitted_methods.append('DELETE')
+            allow_update and permitted_methods.append('UPDATE')
+
+            return HttpResponseNotAllowed(
+                permitted_methods=permitted_methods
+            )
 
     return _index, _by_id
