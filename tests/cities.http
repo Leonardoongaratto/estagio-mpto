@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "name": "Floriano",
-    "state_id": 5
+    "state_id": 1
 }
 
 

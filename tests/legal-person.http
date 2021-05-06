@@ -18,9 +18,9 @@ POST {{baseURL}}/api/{{resourse}}
 Content-Type: application/json
 
 {
-    "name": "Empresa 4",
-    "city_id": 3,
-    "cnpj": "1237",
+    "name": "Empresa 5",
+    "city_id": 1,
+    "cnpj": "1238",
     "fantasy_name": "Empresa de teste 4"
 }
 
@@ -39,7 +39,7 @@ PUT  {{baseURL}}/api/{{resourse}}/2
 Content-Type: application/json
 
 {
-    "name": "Aparecida do Goias"
+    "cnpj": "1237"
 }
 
 
