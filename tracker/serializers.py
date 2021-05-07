@@ -1,5 +1,5 @@
 from helpers.serializer import BaseSerializer
-from .models import City, State, Person, NaturalPerson, LegalPerson, PackageContainer
+from .models import City, LogTrace, State, Person, NaturalPerson, LegalPerson, PackageContainer
 
 
 
@@ -101,4 +101,9 @@ class CitySerializer(BaseSerializer):
 
         return result
 
+
+
+class LogTraceSerializer(BaseSerializer):
+
+    _model = LogTrace
         
