@@ -15,7 +15,7 @@ POST {{baseURL}}/api/cities
 Content-Type: application/json
 
 {
-    "name": "Floriano",
+    "name": "palmas",
     "state_id": 1
 }
 
