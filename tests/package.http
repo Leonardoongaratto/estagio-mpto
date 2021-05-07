@@ -47,3 +47,16 @@ Content-Type: application/json
 # @name deleteOne
 
 DELETE  {{baseURL}}/api/{{resourse}}/2
+
+
+###
+
+# @name RegisterLog
+
+POST {{baseURL}}/api/{{resourse}}/703671e5/log
+Content-Type: application/json
+
+
+{
+    "city_id": 1
+}
