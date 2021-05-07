@@ -1,7 +1,7 @@
 @baseURL = http://127.0.0.1:8000
 
 
-@resourse = person
+@resourse = packages
 
 
 ###
@@ -18,15 +18,17 @@ POST {{baseURL}}/api/{{resourse}}
 Content-Type: application/json
 
 {
-    "name": "Empresa 5",
-    "city_id": 1
+    "sender_id": 1,
+    "destination_id": 1,
+    "weight": 1.5,
+    "volume": 5
 }
 
 
 ###
 # @name getOne
 
-GET {{baseURL}}/api/{{resourse}}/3
+GET {{baseURL}}/api/{{resourse}}/1
 
 
 ###
@@ -37,7 +39,7 @@ PUT  {{baseURL}}/api/{{resourse}}/1
 Content-Type: application/json
 
 {
-    "cnpj": "1237"
+    "delivery_state": 1
 }
 
 
