@@ -33,19 +33,24 @@ def package_container_log_register(request, unique_identify):
         payload = json.loads(request.body)
         package = PackageContainer.objects.get(unique_identify=unique_identify)
         log_trace = LogTraceSerializer.decode(payload)
-        package.logs.add(log_trace)
+        package.logs.add(log_trace, bulk=False)
 
         status = 201
-        content = json.dumps(
-            LogTraceSerializer.encode(log_trace)
-        )
+        content = json.dumps({
+            'package': PackageContainerSerializer.encode(package),
+            'log_trace': LogTraceSerializer.encode(log_trace)
+        })
+        
     except PackageContainer.DoesNotExist:
         status = 404 
         content = json.dumps({
             "message": "Pacote não encontrado"
         })
     except Exception as e:
-        pass
+        status = 404
+        content = json.dumps({
+            "message": str(e)
+        })
 
 
     return HttpResponse(

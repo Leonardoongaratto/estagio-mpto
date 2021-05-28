@@ -13,8 +13,8 @@ POST {{baseURL}}/api/states
 Content-Type: application/json
 
 {
-    "name": "São Paulo",
-    "abbreviation": "SP"
+    "name": "Maranhão",
+    "abbreviation": "MA"
 }
 
 

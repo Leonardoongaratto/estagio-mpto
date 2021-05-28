@@ -106,4 +106,16 @@ class CitySerializer(BaseSerializer):
 class LogTraceSerializer(BaseSerializer):
 
     _model = LogTrace
+
+
+    @classmethod
+    def encode(cls, instance):
+        result = super().encode(instance)
+
+
+        result.update(
+            city=CitySerializer.encode(instance.city),
+            when=str(instance.when)
+        )
+    
         
