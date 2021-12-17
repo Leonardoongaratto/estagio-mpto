@@ -1,7 +1,6 @@
-from django.conf.urls import url
 from django.urls import path, include
 
 urlpatterns = [
-    (path('api/', include('tracker.urls')))
+    path('api/', include('tracker.urls'))
 ]
 

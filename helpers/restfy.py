@@ -37,7 +37,6 @@ def make_rest(Serializer, allow_list=True,allow_get=True,
 
         )
 
-
     def _update_by_id(request, id):
         status = 200
         result = {}
